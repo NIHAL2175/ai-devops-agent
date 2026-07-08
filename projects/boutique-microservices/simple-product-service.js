@@ -17,23 +17,32 @@ const pool = new Pool({
 
 // Helper function to map product to appropriate image
 const getImageForProduct = (product) => {
-  const productName = (product.name || '').toLowerCase();
-  
-  // Map specific products to production-ready images
-  // You can place your AI-generated images in /public/product-images/ with these names:
-  if (productName.includes('silk evening gown') || productName.includes('gown') || productName.includes('dress')) {
-    return '/product-images/silk-evening-gown.jpg';
-  } else if (productName.includes('cashmere coat') || productName.includes('coat') || productName.includes('jacket')) {
-    return '/product-images/cashmere-coat.jpg';
-  } else if (productName.includes('leather handbag') || productName.includes('handbag') || productName.includes('bag') || productName.includes('purse') || productName.includes('tote')) {
-    return '/product-images/leather-handbag.jpg';
-  } else if (productName.includes('diamond necklace') || productName.includes('necklace') || productName.includes('jewelry') || productName.includes('diamond')) {
-    return '/product-images/diamond-necklace.jpg';
-  } else if (productName.includes('designer heels') || productName.includes('heels') || productName.includes('shoe') || productName.includes('boot') || productName.includes('sneaker')) {
-    return '/product-images/designer-heels.jpg';
-  }
-  
-  // Default fallback
+  const name = (product.name || '').toLowerCase();
+
+  if (name.includes('black tshirt'))
+    return '/product-images/black-tshirt.webp';
+
+  if (name.includes('white hoodie'))
+    return '/product-images/white-hoodie.webp';
+
+  if (name.includes('ceramic baselayer'))
+    return '/product-images/ceramic-baselayer.webp';
+
+  if (name.includes('navy blue tshirt'))
+    return '/product-images/navy-blue-tshirt.webp';
+
+  if (name.includes('sand pant'))
+    return '/product-images/sand-pant.webp';
+
+  if (name.includes('off grid pants'))
+    return '/product-images/off-grid-pant.webp';
+
+  if (name.includes('chad blanco'))
+    return '/product-images/chad-blanco.webp';
+
+  if (name.includes('abravisto blu'))
+    return '/product-images/abravisto-blu.webp';
+
   return '/product-images/placeholder.jpg';
 };
 

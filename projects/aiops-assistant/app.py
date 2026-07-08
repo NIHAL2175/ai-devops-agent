@@ -1,6 +1,6 @@
 """
 AIOps Assistant — Streamlit Chat UI
-Connects to AWS Bedrock Agent for root cause analysis.
+Connects to Google Gemini for root cause analysis.
 
 Setup:
     1. pip install -r requirements.txt
@@ -10,7 +10,6 @@ Setup:
 """
 
 import streamlit as st
-import boto3
 import uuid
 import json
 import os
@@ -23,9 +22,10 @@ load_dotenv()
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 AWS_SESSION_TOKEN = os.getenv("AWS_SESSION_TOKEN")
-AWS_REGION = os.getenv("AWS_REGION", "eu-north-1")
-AGENT_ID = os.getenv("BEDROCK_AGENT_ID")
-AGENT_ALIAS_ID = os.getenv("BEDROCK_AGENT_ALIAS_ID")
+AWS_REGION = os.getenv("AWS_REGION", "us-east-1")
+from gemini_client import ask_gemini
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 
 # --- Page Config ---
@@ -156,7 +156,7 @@ st.markdown("""
 
 # --- Validate Config ---
 # Access keys optional: boto3 uses ~/.aws/credentials, SSO, env, or IAM role if unset.
-config_ok = bool(AGENT_ID and AGENT_ALIAS_ID)
+config_ok = bool(GEMINI_API_KEY)
 
 
 # --- Initialize Session State ---
@@ -167,40 +167,12 @@ if "session_id" not in st.session_state:
 
 
 # --- Bedrock Agent Client ---
-@st.cache_resource
-def get_bedrock_client():
-    kwargs = {"service_name": "bedrock-agent-runtime", "region_name": AWS_REGION}
-    if AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY:
-        kwargs["aws_access_key_id"] = AWS_ACCESS_KEY_ID
-        kwargs["aws_secret_access_key"] = AWS_SECRET_ACCESS_KEY
-        if AWS_SESSION_TOKEN:
-            kwargs["aws_session_token"] = AWS_SESSION_TOKEN
-    return boto3.client(**kwargs)
-
-
 def invoke_agent(prompt: str) -> str:
-    """Send a message to the Bedrock Agent and get the response."""
-    client = get_bedrock_client()
-
+    """Invoke Google Gemini."""
     try:
-        response = client.invoke_agent(
-            agentId=AGENT_ID,
-            agentAliasId=AGENT_ALIAS_ID,
-            sessionId=st.session_state.session_id,
-            inputText=prompt,
-        )
-
-        full_response = ""
-        for event in response["completion"]:
-            if "chunk" in event:
-                chunk = event["chunk"]
-                if "bytes" in chunk:
-                    full_response += chunk["bytes"].decode("utf-8")
-
-        return full_response
-
+        return ask_gemini(prompt)
     except Exception as e:
-        return f"⚠️ Error: {str(e)}"
+        return f"❌ Gemini Error:\n\n{str(e)}"
 
 
 # --- Header ---
@@ -223,7 +195,7 @@ if not config_ok:
 
     st.error("Missing Bedrock agent settings. Create a `.env` file with at least:")
     st.code("""AWS_REGION=us-east-1
-BEDROCK_AGENT_ID=your_agent_id
+BEDROCK_AGENT_ID=124WTDETXD
 BEDROCK_AGENT_ALIAS_ID=TSTALIASID
 
 # Optional (omit to use AWS CLI profile / SSO / role):
@@ -243,7 +215,7 @@ st.markdown(f"""
     <span style="color: #2a3040;">|</span>
     <span style="color: #5a6270;">Region: {AWS_REGION}</span>
     <span style="color: #2a3040;">|</span>
-    <span style="color: #5a6270;">Agent: {AGENT_ID}</span>
+    <span style="color: #5a6270;">Model: Gemini 2.5 Flash</span>
 </div>
 """, unsafe_allow_html=True)
 

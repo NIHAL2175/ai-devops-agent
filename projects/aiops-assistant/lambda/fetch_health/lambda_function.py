@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 DEFAULT_CLUSTER = "eks-cluster"
 DEFAULT_NAMESPACE = "boutique"
 REGION = "us-east-1"
-PROMETHEUS_URL = "http://<YOUR_PROMETHEUS_ELB_URL>:9090"
+PROMETHEUS_URL = "http://a5ec6a87a2cf04fb9a59eff5881db4c9-671925143.us-east-1.elb.amazonaws.com:9090"
 
 def prometheus_query(query):
     """Run an instant PromQL query and return the result."""

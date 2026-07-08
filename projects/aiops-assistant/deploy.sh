@@ -117,7 +117,7 @@ else
   AGENT_ID=$(aws bedrock-agent create-agent \
     --agent-name "$AGENT_NAME" \
     --agent-resource-role-arn "$AGENT_ROLE_ARN" \
-    --foundation-model "qwen.qwen3-32b-v1:0" \
+    --foundation-model "amazon.nova-lite-v1:0" \
     --instruction "$AGENT_INSTRUCTION" \
     --region "$REGION" \
     --query 'agent.agentId' --output text)
@@ -132,13 +132,30 @@ fi
 echo ""
 echo "[3/3] Adding action groups and preparing agent..."
 
-python3 - <<PYEOF
-import boto3, json, sys
+python - <<PYEOF
+import boto3
+import json
+import sys
+import subprocess
+import os
 
 region = "$REGION"
 agent_id = "$AGENT_ID"
 account_id = "$ACCOUNT_ID"
-script_dir = "$SCRIPT_DIR"
+
+script_dir = subprocess.check_output(
+    ["cygpath", "-w", "$SCRIPT_DIR"],
+    text=True
+).strip()
+
+print("=" * 60)
+print("SCRIPT_DIR =", script_dir)
+print("PWD =", os.getcwd())
+print("Schemas folder exists:", os.path.exists(os.path.join(script_dir, "schemas")))
+print("fetch_logs.json exists:", os.path.exists(os.path.join(script_dir, "schemas", "fetch_logs.json")))
+print("fetch_metrics.json exists:", os.path.exists(os.path.join(script_dir, "schemas", "fetch_metrics.json")))
+print("fetch_health.json exists:", os.path.exists(os.path.join(script_dir, "schemas", "fetch_health.json")))
+print("=" * 60)
 
 client = boto3.client("bedrock-agent", region_name=region)
 
