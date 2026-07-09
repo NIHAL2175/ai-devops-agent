@@ -320,7 +320,17 @@ const ProductDetail: React.FC = () => {
                       flexGrow: 1,
                       py: 1.5,
                       backgroundColor: '#d4af37',
-                      color: '#1a1a1a',
+                      color: '#ffffff',
+                      fontWeight: 700,
+                      boxShadow: '0 8px 20px rgba(0, 0, 0, 0.18)',
+                      '& .MuiButton-startIcon': {
+                        color: '#ffffff',
+                      },
+                      '&.Mui-disabled': {
+                        backgroundColor: '#c8b57a',
+                        color: '#ffffff',
+                        opacity: 1,
+                      },
                       '&:hover': {
                         backgroundColor: '#b8941f',
                       },

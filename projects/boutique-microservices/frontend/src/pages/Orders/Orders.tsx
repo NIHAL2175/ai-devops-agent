@@ -41,6 +41,15 @@ import { Order } from '../../types';
 import { useAuth } from '../../contexts/AuthContext';
 import LoadingSkeleton from '../../components/common/LoadingSkeleton';
 
+const formatCurrency = (value: number | string): string => {
+  const numericValue = typeof value === 'string' ? parseFloat(value) : value;
+  if (typeof numericValue !== 'number' || !isFinite(numericValue)) {
+    return '₹0';
+  }
+
+  return `₹${numericValue.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
+};
+
 const Orders: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -202,7 +211,7 @@ const Orders: React.FC = () => {
                             {order.items.length} {order.items.length === 1 ? 'Item' : 'Items'}
                           </Typography>
                           <Typography variant="h6" color="primary">
-                            ${typeof order.totalAmount === 'string' ? parseFloat(order.totalAmount).toFixed(2) : order.totalAmount.toFixed(2)}
+                            {formatCurrency(order.totalAmount)}
                           </Typography>
                         </Box>
                       </AccordionSummary>
@@ -226,12 +235,12 @@ const Orders: React.FC = () => {
                                 </ListItemIcon>
                                 <ListItemText
                                   primary={item.product.name}
-                                  secondary={`Quantity: ${item.quantity} × $${typeof item.price === 'string' ? parseFloat(item.price).toFixed(2) : item.price.toFixed(2)}`}
+                                  secondary={`Quantity: ${item.quantity} × ${formatCurrency(item.price)}`}
                                   primaryTypographyProps={{ variant: 'subtitle2' }}
                                   secondaryTypographyProps={{ variant: 'body2' }}
                                 />
                                 <Typography variant="subtitle1" sx={{ minWidth: 80, textAlign: 'right' }}>
-                                  ${((typeof item.price === 'string' ? parseFloat(item.price) : item.price) * item.quantity).toFixed(2)}
+                                  {formatCurrency((typeof item.price === 'string' ? parseFloat(item.price) : item.price) * item.quantity)}
                                 </Typography>
                               </ListItem>
                               {index < order.items.length - 1 && <Divider />}

@@ -337,11 +337,14 @@ COPY public.product_images (id, product_id, image_url, alt_text, is_primary, sor
 --
 
 COPY public.products (id, name, slug, description, short_description, sku, brand, category_id, price, compare_price, materials, care_instructions, inventory_quantity, is_featured, created_at, updated_at) FROM stdin;
-d463e74a-84cb-42b4-82e1-da0564548fb7	Silk Evening Gown	silk-evening-gown	Beautiful floor-length gown crafted from premium silk	Luxurious silk evening gown	LEG-001	LUXE BOUTIQUE	10000000-0000-0000-0000-000000000001	1899.00	2299.00	\N	\N	15	t	2026-02-07 13:03:01.388084	2026-02-07 13:03:01.388084
-8f712af6-9469-4bff-abe1-6746e8077bfe	Cashmere Coat	cashmere-coat	Elegant wool and cashmere blend coat for winter	Warm luxury coat	COAT-001	LUXE BOUTIQUE	10000000-0000-0000-0000-000000000004	899.00	1200.00	\N	\N	20	t	2026-02-07 13:03:01.388084	2026-02-07 13:03:01.388084
-36f64ff4-dbe5-455f-b35a-bf1e2bfa7771	Leather Handbag	leather-handbag	Premium Italian leather tote bag	Luxury leather tote	BAG-001	LUXE BOUTIQUE	10000000-0000-0000-0000-000000000003	599.00	799.00	\N	\N	25	t	2026-02-07 13:03:01.388084	2026-02-07 13:03:01.388084
-4d73607a-83c6-4cc4-b8df-23f93d53e47f	Diamond Necklace	diamond-necklace	Stunning diamond pendant necklace	Elegant diamond jewelry	JWL-001	LUXE BOUTIQUE	10000000-0000-0000-0000-000000000004	2999.00	3999.00	\N	\N	10	t	2026-02-07 13:03:01.388084	2026-02-07 13:03:01.388084
-b0df682a-09be-4151-a96e-dd9636daf762	Designer Heels	designer-heels	Elegant stiletto heels in premium leather	Luxury high heels	SHOES-001	LUXE BOUTIQUE	10000000-0000-0000-0000-000000000005	499.00	699.00	\N	\N	18	t	2026-02-07 13:03:01.388084	2026-02-07 13:03:01.388084
+11111111-1111-1111-1111-111111111111	Black Tshirt	black-tshirt	Premium black cotton t-shirt	Premium black cotton t-shirt	LEG-101	Fabric Clothing	10000000-0000-0000-0000-000000000001	600.00	799.00	\N	\N	50	t	2026-02-07 13:03:01.388084	2026-02-07 13:03:01.388084
+22222222-2222-2222-2222-222222222222	White Hoodie	white-hoodie	Premium white hoodie	Premium white hoodie	HOOD-101	Fabric Clothing	10000000-0000-0000-0000-000000000004	999.00	1299.00	\N	\N	35	t	2026-02-07 13:03:01.388084	2026-02-07 13:03:01.388084
+33333333-3333-3333-3333-333333333333	Ceramic Baselayer	ceramic-baselayer	High performance baselayer	High performance baselayer	BASE-101	Fabric Clothing	10000000-0000-0000-0000-000000000001	2000.00	2400.00	\N	\N	20	t	2026-02-07 13:03:01.388084	2026-02-07 13:03:01.388084
+44444444-4444-4444-4444-444444444444	Navy Blue Tshirt	navy-blue-tshirt	Premium navy t-shirt	Premium navy t-shirt	TSHN-101	Fabric Clothing	10000000-0000-0000-0000-000000000001	650.00	850.00	\N	\N	40	t	2026-02-07 13:03:01.388084	2026-02-07 13:03:01.388084
+55555555-5555-5555-5555-555555555555	Sand Pant	sand-pant	Premium casual pants	Premium casual pants	PANT-101	Fabric Clothing	10000000-0000-0000-0000-000000000004	1200.00	1499.00	\N	\N	25	t	2026-02-07 13:03:01.388084	2026-02-07 13:03:01.388084
+66666666-6666-6666-6666-666666666666	Off Grid Pants	off-grid-pants	Outdoor cargo pants	Outdoor cargo pants	CARG-101	Fabric Clothing	10000000-0000-0000-0000-000000000004	1800.00	2200.00	\N	\N	30	t	2026-02-07 13:03:01.388084	2026-02-07 13:03:01.388084
+77777777-7777-7777-7777-777777777777	Chad Blanco	chad-blanco	Premium fashion shirt	Premium fashion shirt	SHRT-101	Fabric Clothing	10000000-0000-0000-0000-000000000001	2200.00	2700.00	\N	\N	18	t	2026-02-07 13:03:01.388084	2026-02-07 13:03:01.388084
+88888888-8888-8888-8888-888888888888	Abravisto Blu	abravisto-blu	Luxury blue shirt	Luxury blue shirt	SHRT-102	Fabric Clothing	10000000-0000-0000-0000-000000000001	2500.00	2999.00	\N	\N	12	t	2026-02-07 13:03:01.388084	2026-02-07 13:03:01.388084
 \.
 
 

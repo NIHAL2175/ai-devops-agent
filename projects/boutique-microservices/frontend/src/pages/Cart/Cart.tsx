@@ -28,6 +28,15 @@ import {
 import { useCart } from '../../contexts/CartContext';
 import { useNavigate } from 'react-router-dom';
 
+const formatCurrency = (value: number | string): string => {
+  const numericValue = typeof value === 'string' ? parseFloat(value) : value;
+  if (typeof numericValue !== 'number' || !isFinite(numericValue)) {
+    return '₹0';
+  }
+
+  return `₹${numericValue.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
+};
+
 const Cart: React.FC = () => {
   const { items, total, removeItem, updateQuantity, clearCart } = useCart();
   const navigate = useNavigate();
@@ -123,7 +132,7 @@ const Cart: React.FC = () => {
                           {item.category}
                         </Typography>
                         <Typography variant="body1" color="primary" sx={{ fontWeight: 600 }}>
-                          ${typeof item.price === 'string' ? parseFloat(item.price).toFixed(2) : item.price.toFixed(2)} each
+                          {formatCurrency(item.price)} each
                         </Typography>
                       </Grid>
                       
@@ -178,7 +187,7 @@ const Cart: React.FC = () => {
                       <Grid size={{ xs: 12, sm: 2 }}>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                           <Typography variant="h6" sx={{ fontWeight: 700 }}>
-                            ${((typeof item.price === 'string' ? parseFloat(item.price) : item.price) * item.quantity).toFixed(2)}
+                            {formatCurrency((typeof item.price === 'string' ? parseFloat(item.price) : item.price) * item.quantity)}
                           </Typography>
                           <IconButton
                             onClick={() => handleRemoveItem(item.id, item.name)}
@@ -228,7 +237,7 @@ const Cart: React.FC = () => {
               <Box sx={{ mb: 3 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                   <Typography variant="body1">Subtotal:</Typography>
-                  <Typography variant="body1">${subtotal.toFixed(2)}</Typography>
+                  <Typography variant="body1">{formatCurrency(subtotal)}</Typography>
                 </Box>
                 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
@@ -237,19 +246,19 @@ const Cart: React.FC = () => {
                     <Typography variant="body1">Shipping:</Typography>
                   </Box>
                   <Typography variant="body1">
-                    {shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}
+                    {shipping === 0 ? 'FREE' : formatCurrency(shipping)}
                   </Typography>
                 </Box>
                 
                 {shipping > 0 && (
                   <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 2 }}>
-                    Add ${(500 - subtotal).toFixed(2)} more for free shipping
+                    Add {formatCurrency(500 - subtotal)} more for free shipping
                   </Typography>
                 )}
                 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                   <Typography variant="body1">Tax:</Typography>
-                  <Typography variant="body1">${tax.toFixed(2)}</Typography>
+                  <Typography variant="body1">{formatCurrency(tax)}</Typography>
                 </Box>
                 
                 <Divider sx={{ my: 2 }} />
@@ -259,7 +268,7 @@ const Cart: React.FC = () => {
                     Total:
                   </Typography>
                   <Typography variant="h6" sx={{ fontWeight: 700, color: '#d4af37' }}>
-                    ${finalTotal.toFixed(2)}
+                    {formatCurrency(finalTotal)}
                   </Typography>
                 </Box>
               </Box>

@@ -53,12 +53,15 @@ let whereClause = 'WHERE 1=1';
       SELECT p.id, p.name, p.description, p.price, p.compare_price, 
              p.brand, p.inventory_quantity, p.is_featured, p.created_at, p.updated_at,
              COALESCE(c.name, 'Uncategorized') as category,
-             CASE 
-               WHEN p.name ILIKE '%gown%' OR p.name ILIKE '%dress%' THEN '/product-images/silk-evening-gown.jpg'
-               WHEN p.name ILIKE '%coat%' OR p.name ILIKE '%cashmere%' THEN '/product-images/cashmere-coat.jpg'
-               WHEN p.name ILIKE '%handbag%' OR p.name ILIKE '%bag%' THEN '/product-images/leather-handbag.jpg'
-               WHEN p.name ILIKE '%necklace%' OR p.name ILIKE '%jewelry%' THEN '/product-images/diamond-necklace.jpg'
-               WHEN p.name ILIKE '%heels%' OR p.name ILIKE '%shoes%' THEN '/product-images/designer-heels.jpg'
+             CASE
+               WHEN p.name ILIKE '%Black Tshirt%' THEN '/product-images/black-tshirt.webp'
+               WHEN p.name ILIKE '%White Hoodie%' THEN '/product-images/white-hoodie.webp'
+               WHEN p.name ILIKE '%Ceramic Baselayer%' THEN '/product-images/ceramic-baselayer.webp'
+               WHEN p.name ILIKE '%Navy Blue Tshirt%' THEN '/product-images/navy-blue-tshirt.webp'
+               WHEN p.name ILIKE '%Sand Pant%' THEN '/product-images/sand-pant.webp'
+               WHEN p.name ILIKE '%Off Grid Pants%' THEN '/product-images/off-grid-pant.webp'
+               WHEN p.name ILIKE '%Chad Blanco%' THEN '/product-images/chad-blanco.webp'
+               WHEN p.name ILIKE '%Abravisto Blu%' THEN '/product-images/abravisto-blu.webp'
                ELSE '/product-images/placeholder.jpg'
              END as image_url
       FROM products p
@@ -107,14 +110,17 @@ router.get('/:id', async (req, res) => {
       SELECT p.id, p.name, p.description, p.price, p.compare_price, 
              p.brand, p.inventory_quantity, p.is_featured, p.created_at, p.updated_at,
              COALESCE(c.name, 'Uncategorized') as category,
-             CASE 
-               WHEN p.name ILIKE '%gown%' OR p.name ILIKE '%dress%' THEN '/product-images/silk-evening-gown.jpg'
-               WHEN p.name ILIKE '%coat%' OR p.name ILIKE '%cashmere%' THEN '/product-images/cashmere-coat.jpg'
-               WHEN p.name ILIKE '%handbag%' OR p.name ILIKE '%bag%' THEN '/product-images/leather-handbag.jpg'
-               WHEN p.name ILIKE '%necklace%' OR p.name ILIKE '%jewelry%' THEN '/product-images/diamond-necklace.jpg'
-               WHEN p.name ILIKE '%heels%' OR p.name ILIKE '%shoes%' THEN '/product-images/designer-heels.jpg'
+             CASE
+               WHEN p.name ILIKE '%Black Tshirt%' THEN '/product-images/black-tshirt.webp'
+               WHEN p.name ILIKE '%White Hoodie%' THEN '/product-images/white-hoodie.webp'
+               WHEN p.name ILIKE '%Ceramic Baselayer%' THEN '/product-images/ceramic-baselayer.webp'
+               WHEN p.name ILIKE '%Navy Blue Tshirt%' THEN '/product-images/navy-blue-tshirt.webp'
+               WHEN p.name ILIKE '%Sand Pant%' THEN '/product-images/sand-pant.webp'
+               WHEN p.name ILIKE '%Off Grid Pants%' THEN '/product-images/off-grid-pant.webp'
+               WHEN p.name ILIKE '%Chad Blanco%' THEN '/product-images/chad-blanco.webp'
+               WHEN p.name ILIKE '%Abravisto Blu%' THEN '/product-images/abravisto-blu.webp'
                ELSE '/product-images/placeholder.jpg'
-             END as image_url
+            END as image_url
       FROM products p
       LEFT JOIN categories c ON p.category_id = c.id
       WHERE p.id = $1

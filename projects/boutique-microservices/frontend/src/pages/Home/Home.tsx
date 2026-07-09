@@ -28,6 +28,17 @@ import { useCart } from '../../contexts/CartContext';
 import ProductCard from '../../components/common/ProductCard';
 import LoadingSkeleton from '../../components/common/LoadingSkeleton';
 
+const PRODUCT_DISPLAY_ORDER = [
+  'Black Tshirt',
+  'White Hoodie',
+  'Navy Blue Tshirt',
+  'Chad Blanco',
+  'Ceramic Baselayer',
+  'Sand Pant',
+  'Off Grid Pants',
+  'Abravisto Blu',
+];
+
 const Home: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -39,7 +50,11 @@ const Home: React.FC = () => {
       try {
         const featuredProducts = await productService.getAll();
         console.log('[Home] Got products:', featuredProducts.length);
-        setProducts(featuredProducts.slice(0, 8));
+        const orderedProducts = PRODUCT_DISPLAY_ORDER
+          .map((productName) => featuredProducts.find((product) => product.name === productName))
+          .filter((product): product is Product => Boolean(product));
+
+        setProducts(orderedProducts.slice(0, 8));
       } catch (error) {
         console.error('[Home] Error loading products:', error);
       } finally {
@@ -84,11 +99,14 @@ const Home: React.FC = () => {
                       fontWeight: 700,
                       mb: 3,
                       fontSize: { xs: '2.5rem', md: '3.5rem' },
+                      color: '#ffffff',
+                      textShadow: '0 2px 10px rgba(0, 0, 0, 0.35)',
                     }}
                   >
-                    Discover Timeless
+                    Premium Fashion
+                    <br />
                     <Box component="span" sx={{ color: '#d4af37' }}>
-                      {' '}Elegance
+                      Crafted For You
                     </Box>
                   </Typography>
                   <Typography
@@ -98,11 +116,12 @@ const Home: React.FC = () => {
                       mb: 4,
                       lineHeight: 1.6,
                       fontWeight: 300,
-                      opacity: 0.9,
+                      color: 'rgba(255, 255, 255, 0.95)',
                     }}
                   >
-                    Indulge in our curated collection of luxury products, 
-                    where sophistication meets exceptional quality.
+                    Discover premium clothing crafted for everyday comfort.
+                    <br />
+                    Experience timeless fashion with exceptional quality.
                   </Typography>
                   <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
                     <Button
@@ -111,10 +130,12 @@ const Home: React.FC = () => {
                       endIcon={<ShoppingBagIcon />}
                       href="/products"
                       sx={{
-                        backgroundColor: '#d4af37',
-                        color: '#1a1a1a',
+                        background: '#d4af37 !important',
+                        color: '#ffffff !important',
                         px: 4,
                         py: 1.5,
+                        fontWeight: 700,
+                        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.22)',
                         '&:hover': {
                           backgroundColor: '#b8941f',
                         },
@@ -132,6 +153,8 @@ const Home: React.FC = () => {
                         color: 'white',
                         px: 4,
                         py: 1.5,
+                        fontWeight: 700,
+                        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.18)',
                         '&:hover': {
                           backgroundColor: 'rgba(255, 255, 255, 0.1)',
                           borderColor: 'white',
@@ -162,7 +185,8 @@ const Home: React.FC = () => {
                     variant="h2"
                     sx={{
                       fontFamily: '"Playfair Display", serif',
-                      color: '#1a1a1a',
+                      color: '#ffffff !important',
+                      textShadow: '0 1px 0 rgba(255, 255, 255, 0.35)',
                       textAlign: 'center',
                       p: 4,
                     }}
@@ -199,7 +223,7 @@ const Home: React.FC = () => {
                   Free Shipping
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  On orders over $500
+                  On orders over ₹500
                 </Typography>
               </Paper>
             </Grid>

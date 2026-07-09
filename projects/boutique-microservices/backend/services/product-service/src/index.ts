@@ -16,25 +16,42 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
-setupMetrics(app, { serviceName: 'product-service', serviceVersion: '1.0.0' });
+setupMetrics(app, {
+  serviceName: 'product-service',
+  serviceVersion: '1.0.0'
+});
 
 app.use(metricsMiddleware);
 
-// Serve static images from public directory
-app.use('/images', express.static(path.join(__dirname, '../../../public')));
+// Serve static product images
+app.use(
+  '/product-images',
+  express.static(path.join(__dirname, '../../../public/product-images'))
+);
 
-app.use('', productRoutes);
+// Product routes
+app.use('/products', productRoutes);
 
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  console.error(err.stack);
-  res.status(500).json({ error: 'Internal server error' });
-});
+// Global error handler
+app.use(
+  (
+    err: any,
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+);
 
 const startServer = async () => {
   try {
     await connectDB();
+
     app.listen(PORT, () => {
       console.log(`Product service running on port ${PORT}`);
+      console.log(`Images available at http://localhost:${PORT}/product-images`);
     });
   } catch (error) {
     console.error('Failed to start product service:', error);

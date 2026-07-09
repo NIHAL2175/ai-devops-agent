@@ -168,7 +168,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
           <AccordionDetails>
             <Box sx={{ px: 2, pt: 2 }}>
               <Typography variant="body2" gutterBottom>
-                ${filters.priceRange[0]} - ${filters.priceRange[1]}
+                ₹{filters.priceRange[0]} - ₹{filters.priceRange[1]}
               </Typography>
               <Slider
                 value={filters.priceRange}

@@ -1,12 +1,8 @@
 # Part 2 — Understanding the Workflow
 
-> Companion doc for the YouTube series: **DevOps + AIOps Series** — Part 2
-
----
-
 ## Overview
 
-Before writing any code or deployment configs, you need to understand how the entire system flows. This part traces the complete journey — from a developer writing code locally, all the way to an AI assistant diagnosing incidents in production.
+Before writing any code or deployment configs, you need to understand how the entire system flows. This part traces the complete journey — from a developer writing code locally, all the way to deploying and monitoring applications in production.
 
 ```mermaid
 flowchart LR
@@ -18,7 +14,6 @@ flowchart LR
     F --> G[EKS Cluster]
     G --> H[Prometheus + Grafana]
     H --> I[CloudWatch Logs]
-    I --> J[Kira — AIOps Agent]
 ```
 
 ---
@@ -230,62 +225,6 @@ flowchart LR
 - Pod restart count — surfaces crash loops early
 
 ---
-
-## Stage 7: AIOps — Kira (Bedrock Agent)
-
-This is where the workflow goes beyond traditional DevOps. When something goes wrong in production, instead of manually digging through logs and metrics, you ask Kira.
-
-```mermaid
-flowchart TD
-    Incident[Incident detected\nor engineer asks a question] --> UI[Streamlit UI\napp.py]
-    UI --> Agent[Bedrock Agent\nKira]
-
-    Agent --> |Hypothesis: check logs| FL[Lambda: fetch_logs\nCloudWatch Logs]
-    Agent --> |Hypothesis: check metrics| FM[Lambda: fetch_metrics\nPrometheus API]
-    Agent --> |Hypothesis: check health| FH[Lambda: fetch_health\nEKS + Node Groups]
-
-    FL --> |Log entries + timestamps| Agent
-    FM --> |CPU, memory, latency, errors| Agent
-    FH --> |Pod health, restarts, replicas| Agent
-
-    Agent --> |Root cause + evidence + fix| UI
-    UI --> Engineer[Engineer sees:\n- Root cause\n- Evidence from logs/metrics\n- Immediate fix\n- Prevention steps]
-```
-
-**How Kira investigates:**
-
-```mermaid
-sequenceDiagram
-    participant Eng as Engineer
-    participant Kira as Kira (Bedrock Agent)
-    participant Logs as fetch_logs (Lambda)
-    participant Metrics as fetch_metrics (Lambda)
-    participant Health as fetch_health (Lambda)
-
-    Eng->>Kira: "Why are we seeing 503 errors?"
-    Note over Kira: Step 1: Understand the symptom
-    Note over Kira: Step 2: Form a hypothesis
-    Kira->>Logs: Search for 503 errors in last hour
-    Logs-->>Kira: 47 entries — all from order-service
-    Kira->>Health: Check order-service pod health
-    Health-->>Kira: 0/1 replicas available — pod crash-looping
-    Kira->>Metrics: Check order-service memory last 30m
-    Metrics-->>Kira: Memory spiked to 512MB, OOM kill at 22:14
-    Note over Kira: Step 4: Correlate evidence
-    Kira->>Eng: Root cause: OOM kill at 22:14 due to memory spike.\nEvidence: logs show 503s starting at 22:14, pod restarting,\nmetrics confirm memory exceeded limit.\nFix: Increase memory limit in orders.yml to 768Mi.\nPrevention: Add VPA + memory alerting rule.
-```
-
-**The Kira workflow:**
-1. Engineer describes a symptom
-2. Kira forms a hypothesis
-3. Gathers evidence using the 3 Lambda tools (logs, metrics, health)
-4. Correlates data across all three sources
-5. Returns root cause, supporting evidence, immediate fix, and prevention steps
-
-**Kira never guesses.** Every conclusion is backed by specific log entries or metric values.
-
----
-
 ## The Complete Picture
 
 ```mermaid
@@ -299,28 +238,12 @@ flowchart TD
     EKS -->|metrics /metrics| Prom[Prometheus]
     EKS -->|pod logs| FB[Fluent Bit]
     Prom --> Grafana[Grafana\nDashboards]
-    FB --> CW[CloudWatch\nLog Groups]
-    Grafana -->|anomaly detected| Kira[Kira — AIOps Agent\nBedrock + Lambda]
-    CW --> Kira
-    Kira -->|root cause + fix| Eng[👩‍💻 Engineer]
+    FB --> CW[CloudWatch\n/eks/boutique/pods]
 
     subgraph IaC [Infrastructure as Code]
         TF[Terraform\nVPC + EKS + ECR + Helm]
     end
+
     TF --> EKS
 ```
-
 ---
-
-## Key Files Reference
-
-| File | Stage | Purpose |
-|------|-------|---------|
-| `projects/boutique-microservices/docker-compose.yml` | Stage 1 | Local stack |
-| `.github/workflows/ci.yml` | Stage 3 | Build and push images |
-| `projects/Infrastructure/` | Stage 4 | Terraform for AWS |
-| `gitops/argo-cd.yml` | Stage 5 | ArgoCD application definition |
-| `gitops/k8s/` | Stage 5 | All Kubernetes manifests |
-| `gitops/k8s/backend/service-monitor.yml` | Stage 6 | Prometheus scrape config |
-| `gitops/k8s/grafana-dashboard.yml` | Stage 6 | Pre-loaded Grafana dashboard |
-| `projects/aiops-assistant/` | Stage 7 | Kira — AIOps Bedrock Agent |

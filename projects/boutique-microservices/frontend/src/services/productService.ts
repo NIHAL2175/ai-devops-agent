@@ -1,16 +1,6 @@
 import apiClient from './api';
 import { Product } from '../types';
-
-// Helper function to get proper image URL
-const getImageUrl = (product: any): string => {
-  // Backend is now handling image mapping, so just return the image_url as-is
-  if (product.image_url) {
-    return product.image_url;
-  }
-  
-  // Default fallback
-  return '/product-images/placeholder.jpg';
-};
+import { resolveProductImageUrl } from '../utils/productImages';
 
 export const productService = {
   getAll: async (): Promise<Product[]> => {
@@ -29,7 +19,7 @@ export const productService = {
             description: product.description,
             price: parseFloat(product.price),
             originalPrice: product.compare_price ? parseFloat(product.compare_price) : undefined,
-            imageUrl: product.image_url,
+            imageUrl: resolveProductImageUrl(product),
             category: product.category,
             brand: product.brand,
             inventory: product.inventory_quantity || 0,
@@ -51,7 +41,7 @@ export const productService = {
         description: product.description,
         price: parseFloat(product.price),
         originalPrice: product.originalPrice ? parseFloat(product.originalPrice) : undefined,
-        imageUrl: getImageUrl(product),
+        imageUrl: resolveProductImageUrl(product),
         category: product.category || product.category_id,
         brand: product.brand,
         inventory: product.inventory_quantity || product.inventory || 0,
@@ -83,7 +73,7 @@ export const productService = {
         description: product.description,
         price: parseFloat(product.price),
         originalPrice: product.originalPrice ? parseFloat(product.originalPrice) : undefined,
-        imageUrl: getImageUrl(product),
+        imageUrl: resolveProductImageUrl(product),
         category: product.category || product.category_id,
         brand: product.brand,
         inventory: product.inventory_quantity || product.inventory || 0,

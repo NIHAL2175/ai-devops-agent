@@ -21,6 +21,16 @@ import {
   Visibility as ViewIcon,
 } from '@mui/icons-material';
 import { Product } from '../../types';
+import { resolveProductImageUrl } from '../../utils/productImages';
+
+const formatCurrency = (value: number | string | undefined): string => {
+  const numericValue = typeof value === 'string' ? parseFloat(value) : value;
+  if (typeof numericValue !== 'number' || !isFinite(numericValue)) {
+    return '₹0';
+  }
+
+  return `₹${numericValue.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
+};
 
 interface ProductCardProps {
   product: Product;
@@ -46,18 +56,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   // Enhanced image URL handling with fallbacks
   const getImageSrc = (): string => {
-    if (product.imageUrl) {
-      return product.imageUrl;
-    }
-    
-    // Fallback to placeholder image
-    return '/images/placeholder.svg';
+    return resolveProductImageUrl(product);
   };
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     const target = e.currentTarget;
-    // Try the local placeholder image
-    target.src = '/images/placeholder.svg';
+    target.src = '/product-images/placeholder.jpg';
     target.onerror = () => {
       // Ultimate fallback - use a data URI for a simple placeholder
       target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjVGNUY1Ii8+CjxwYXRoIGQ9Ik04NSA3NUgxMTVWMTI1SDg1Vjc1WiIgZmlsbD0iI0QxRDFEMSIvPgo8Y2lyY2xlIGN4PSI5MCIgY3k9IjkwIiByPSI1IiBmaWxsPSIjOUExQTFIIi8+CjxwYXRoIGQ9Ik03NSAxMjVIMTI1VjE0MEg3NVYxMjVaIiBmaWxsPSIjQTFBMUExIi8+Cjwvc3ZnPgo=';
@@ -270,10 +274,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             color="primary"
             fontWeight="bold"
           >
-            ${(() => {
-              const price = typeof product.price === 'string' ? parseFloat(product.price) : product.price;
-              return isNaN(price) || !isFinite(price) ? '0.00' : price.toFixed(2);
-            })()}
+            {formatCurrency(product.price)}
           </Typography>
           
           {product.originalPrice && product.originalPrice > product.price && (
@@ -282,10 +283,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               color="text.secondary"
               sx={{ textDecoration: 'line-through' }}
             >
-              ${(() => {
-                const price = typeof product.originalPrice === 'string' ? parseFloat(product.originalPrice) : product.originalPrice;
-                return isNaN(price) || !isFinite(price) ? '0.00' : price.toFixed(2);
-              })()}
+              {formatCurrency(product.originalPrice)}
             </Typography>
           )}
         </Box>

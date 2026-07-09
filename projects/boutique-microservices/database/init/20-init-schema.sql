@@ -76,25 +76,37 @@ INSERT INTO categories (id, name, description) VALUES
 ('10000000-0000-0000-0000-000000000005', 'Shoes', 'Designer footwear and heels');
 
 INSERT INTO products (id, name, slug, description, short_description, sku, brand, category_id, price, compare_price, inventory_quantity, is_featured) VALUES
-(gen_random_uuid(), 'Silk Evening Gown', 'silk-evening-gown',
-'Beautiful floor-length gown crafted from premium silk', 'Luxurious silk evening gown', 'LEG-001', 'LUXE BOUTIQUE',
-'10000000-0000-0000-0000-000000000001', 1899.00, 2299.00, 15, true),
+(gen_random_uuid(), 'Black Tshirt', 'black-tshirt',
+'Premium black cotton t-shirt', 'Premium black cotton t-shirt', 'LEG-101', 'Fabric Clothing',
+'10000000-0000-0000-0000-000000000001', 600.00, 799.00, 50, true),
 
-(gen_random_uuid(), 'Cashmere Coat', 'cashmere-coat',
-'Elegant wool and cashmere blend coat for winter', 'Warm luxury coat', 'COAT-001', 'LUXE BOUTIQUE',
-'10000000-0000-0000-0000-000000000004', 899.00, 1200.00, 20, true),
+(gen_random_uuid(), 'White Hoodie', 'white-hoodie',
+'Premium white hoodie', 'Premium white hoodie', 'HOOD-101', 'Fabric Clothing',
+'10000000-0000-0000-0000-000000000004', 999.00, 1299.00, 35, true),
 
-(gen_random_uuid(), 'Leather Handbag', 'leather-handbag',
-'Premium Italian leather tote bag', 'Luxury leather tote', 'BAG-001', 'LUXE BOUTIQUE',
-'10000000-0000-0000-0000-000000000003', 599.00, 799.00, 25, true),
+(gen_random_uuid(), 'Ceramic Baselayer', 'ceramic-baselayer',
+'High performance baselayer', 'High performance baselayer', 'BASE-101', 'Fabric Clothing',
+'10000000-0000-0000-0000-000000000001', 2000.00, 2400.00, 20, true),
 
-(gen_random_uuid(), 'Diamond Necklace', 'diamond-necklace',
-'Stunning diamond pendant necklace', 'Elegant diamond jewelry', 'JWL-001', 'LUXE BOUTIQUE',
-'10000000-0000-0000-0000-000000000004', 2999.00, 3999.00, 10, true),
+(gen_random_uuid(), 'Navy Blue Tshirt', 'navy-blue-tshirt',
+'Premium navy t-shirt', 'Premium navy t-shirt', 'TSHN-101', 'Fabric Clothing',
+'10000000-0000-0000-0000-000000000001', 650.00, 850.00, 40, true),
 
-(gen_random_uuid(), 'Designer Heels', 'designer-heels',
-'Elegant stiletto heels in premium leather', 'Luxury high heels', 'SHOES-001', 'LUXE BOUTIQUE',
-'10000000-0000-0000-0000-000000000005', 499.00, 699.00, 18, true);
+(gen_random_uuid(), 'Sand Pant', 'sand-pant',
+'Premium casual pants', 'Premium casual pants', 'PANT-101', 'Fabric Clothing',
+'10000000-0000-0000-0000-000000000004', 1200.00, 1499.00, 25, true),
+
+(gen_random_uuid(), 'Off Grid Pants', 'off-grid-pants',
+'Outdoor cargo pants', 'Outdoor cargo pants', 'CARG-101', 'Fabric Clothing',
+'10000000-0000-0000-0000-000000000004', 1800.00, 2200.00, 30, true),
+
+(gen_random_uuid(), 'Chad Blanco', 'chad-blanco',
+'Premium fashion shirt', 'Premium fashion shirt', 'SHRT-101', 'Fabric Clothing',
+'10000000-0000-0000-0000-000000000001', 2200.00, 2700.00, 18, true),
+
+(gen_random_uuid(), 'Abravisto Blu', 'abravisto-blu',
+'Luxury blue shirt', 'Luxury blue shirt', 'SHRT-102', 'Fabric Clothing',
+'10000000-0000-0000-0000-000000000001', 2500.00, 2999.00, 12, true);
 
 -- ============================================================
 -- ORDERS DB
