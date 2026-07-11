@@ -22,7 +22,7 @@ The application follows a **Microservices Architecture**, where each business ca
 
 Instead of manually deploying applications, the project follows a **GitOps workflow**, where Git remains the single source of truth and ArgoCD continuously synchronizes the Kubernetes cluster with the latest repository changes.
 
-Infrastructure provisioning is fully automated using Terraform, while GitHub Actions handles continuous integration by building Docker images, pushing them to Amazon ECR and updating Kubernetes manifests automatically.
+Infrastructure provisioning is fully automated using Terraform, while GitHub Actions handles continuous integration by building Docker images, pushing them to Amazon ECR and updating Kubernetes manifests files automatically.
 
 The platform also includes a complete observability stack using Prometheus, Grafana, AlertManager, Fluent Bit and Amazon CloudWatch for monitoring, alerting, visualization, and centralized log management.
 
